@@ -18,16 +18,16 @@ if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
   self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
 }
 
-// NOTE: For production, replace with a real reCAPTCHA v3 site key.
-// App Check must be registered for Firebase AI Logic in the console.
-try {
-  initializeAppCheck(firebaseApp, {
-    provider: new ReCaptchaV3Provider('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'),
-    isTokenAutoRefreshEnabled: true,
-  });
-} catch (e) {
-  console.warn('App Check init failed:', e);
+// Set VITE_RECAPTCHA_V3_SITE_KEY to the registered site key for this domain.
+// App Check enforcement must also be enabled in the Firebase Console.
+const siteKey = import.meta.env.VITE_RECAPTCHA_V3_SITE_KEY;
+if (!siteKey) {
+  throw new Error('Missing VITE_RECAPTCHA_V3_SITE_KEY: configure App Check before running the app.');
 }
+initializeAppCheck(firebaseApp, {
+    provider: new ReCaptchaV3Provider(siteKey),
+    isTokenAutoRefreshEnabled: true,
+});
 
 const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
 
