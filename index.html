@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HG Hybrid AI</title>
+  <script>
+    (function() {
+      const orig = console.log;
+      console.log = function(...args) {
+        try {
+          const div = document.getElementById('console');
+          if (div) div.textContent += args.join(' ') + '\\n';
+        } catch {}
+        orig.apply(console, args);
+      };
+    })();
+  </script>
+</head>
+<body>
+  <main>
+    <h1>HG Hybrid AI</h1>
+    <p class="subtitle">Hybrid on-device/cloud generative AI with Firebase AI Logic</p>
+
+    <section class="card">
+      <label for="prompt">Prompt</label>
+      <textarea id="prompt" rows="4" placeholder="Ask something..."></textarea>
+      <div class="row">
+        <button id="initBtn">Initialize on-device model</button>
+        <button id="runBtn">Generate</button>
+      </div>
+      <label for="image">Optional image (JPEG/PNG)</label>
+      <input type="file" id="image" accept="image/jpeg,image/png" />
+    </section>
+
+    <section class="card">
+      <div class="status" id="status">Not initialized</div>
+      <div class="mode" id="mode">Inference mode: unknown</div>
+      <pre id="console" style="background:#000;color:#0f0;max-height:120px;overflow:auto;"></pre>
+    <pre id="output"></pre>
+    </section>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
