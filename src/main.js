@@ -1,4 +1,5 @@
-import { initDeviceModel, generate } from './firebase.js';
+import { initDeviceModel, generate, model } from './firebase.js';
+import { runOnDeviceInitialization } from './on-device-status.mjs';
 
 const statusEl = document.getElementById('status');
 const modeEl = document.getElementById('mode');
@@ -18,15 +19,18 @@ function setStatus(text, cls = '') {
 }
 
 initBtn.addEventListener('click', async () => {
-  setStatus('Initializing on-device model (may download)...');
+  initBtn.disabled = true;
   try {
-    await initDeviceModel((p) => {
-      setStatus(`Downloading model: ${Math.round(p * 100)}%`);
+    await runOnDeviceInitialization({
+      model,
+      initializeDeviceModel: initDeviceModel,
+      onStatus: ({ text, kind }) => setStatus(text, kind),
     });
-    setStatus('On-device model ready', 'ok');
   } catch (e) {
     console.error(e);
     setStatus('Initialization failed or fell back to cloud: ' + e.message, 'warn');
+  } finally {
+    initBtn.disabled = false;
   }
 });
 
