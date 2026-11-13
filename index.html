@@ -4,18 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HG Hybrid AI</title>
-  <script>
-    (function() {
-      const orig = console.log;
-      console.log = function(...args) {
-        try {
-          const div = document.getElementById('console');
-          if (div) div.textContent += args.join(' ') + '\\n';
-        } catch {}
-        orig.apply(console, args);
-      };
-    })();
-  </script>
+  <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
   <main>
@@ -34,10 +23,10 @@
     </section>
 
     <section class="card">
-      <div class="status" id="status">Not initialized</div>
+      <div class="status" id="status" role="status" aria-live="polite">Not initialized</div>
       <div class="mode" id="mode">SDK-reported inference source: not yet available</div><div class="mode" id="elapsed">Response time: —</div>
       
-    <pre id="output"></pre>
+    <pre id="output" aria-live="polite"></pre>
     </section>
   </main>
   <script type="module" src="/src/main.js"></script>
