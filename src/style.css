@@ -56,3 +56,12 @@ pre {
 }
 .ok { color: var(--ok); }
 .warn { color: var(--warn); }
+/* Competition demo improvements */
+body{background:radial-gradient(ellipse at 70% 0%,#203b62 0%,#0f172a 60%)}
+main{max-width:900px}
+h1{font-size:clamp(2rem,5vw,3.3rem);letter-spacing:-.035em;line-height:1.12}
+.card{border:1px solid #34465f;border-radius:18px;padding:1.5rem}
+button.example{background:#30445e;color:#e2e8f0;border:1px solid #5a7897;font-size:.86rem}
+button.example:hover{background:#3b5776}
+textarea:focus{outline:2px solid #38bdf8;outline-offset:2px}
+@media(max-width:600px){main{margin:1rem auto}.card{padding:1rem}}
