@@ -36,17 +36,22 @@ runBtn.addEventListener('click', async () => {
     setStatus('Enter a prompt first', 'warn');
     return;
   }
+  const file = imageEl.files && imageEl.files[0] ? imageEl.files[0] : null;
+  if (file && (!['image/jpeg', 'image/png'].includes(file.type) || file.size > 5 * 1024 * 1024)) {
+    setStatus('Use a JPEG or PNG image smaller than 5 MB.', 'warn');
+    return;
+  }
   setStatus('Generating...');
   runBtn.disabled = true;
   const startedAt = performance.now();
   outputEl.textContent = '';
   try {
-    const file = imageEl.files && imageEl.files[0] ? imageEl.files[0] : null;
     const { text, mode } = await generate(prompt, file);
     outputEl.textContent = text;
     modeEl.textContent = 'SDK-reported inference source: ' + mode;
+    if (mode === 'unknown') setStatus('Response received, but inference source was not reported.', 'warn');
     elapsedEl.textContent = `Response time: ${((performance.now() - startedAt) / 1000).toFixed(1)}s`;
-    setStatus('Done', 'ok');
+    if (mode !== 'unknown') setStatus('Done', 'ok');
   } catch (e) {
     console.error(e);
     outputEl.textContent = 'Error: ' + e.message;
