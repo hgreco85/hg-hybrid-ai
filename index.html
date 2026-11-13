@@ -4,26 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HG Hybrid AI</title>
-  <script>
-    (function() {
-      const orig = console.log;
-      console.log = function(...args) {
-        try {
-          const div = document.getElementById('console');
-          if (div) div.textContent += args.join(' ') + '\\n';
-        } catch {}
-        orig.apply(console, args);
-      };
-    })();
-  </script>
+  <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
   <main>
-    <h1>HG Hybrid AI</h1>
-    <p class="subtitle">Hybrid on-device/cloud generative AI with Firebase AI Logic</p>
+    <h1>Private when possible. Connected when needed.</h1>
+    <p class="subtitle">A device-first AI assistant that uses Firebase AI Logic to fall back to the cloud when needed. See where your answer came from.</p>
 
     <section class="card">
-      <label for="prompt">Prompt</label>
+      <p class="subtitle">Try a real-world scenario using fictional data:</p><div class="row"><button type="button" class="example" data-prompt="Summarize this field note in two actionable bullets: A storm knocked out power to three streets. Crews isolated the damaged line and are assessing restoration.">Field report</button><button type="button" class="example" data-prompt="Rewrite this message clearly and empathetically: Your appointment is delayed due to weather. We will contact you when service resumes.">Clear communication</button><button type="button" class="example" data-prompt="Make a concise checklist from: inspect equipment, confirm isolation, record observations, share status with team.">Action checklist</button></div><label for="prompt">Your prompt</label>
       <textarea id="prompt" rows="4" placeholder="Ask something..."></textarea>
       <div class="row">
         <button id="initBtn">Initialize on-device model</button>
@@ -34,10 +23,10 @@
     </section>
 
     <section class="card">
-      <div class="status" id="status">Not initialized</div>
-      <div class="mode" id="mode">Inference mode: unknown</div>
-      <pre id="console" style="background:#000;color:#0f0;max-height:120px;overflow:auto;"></pre>
-    <pre id="output"></pre>
+      <div class="status" id="status" role="status" aria-live="polite">Not initialized</div>
+      <div class="mode" id="mode">SDK-reported inference source: not yet available</div><div class="mode" id="elapsed">Response time: —</div>
+      
+    <pre id="output" aria-live="polite"></pre>
     </section>
   </main>
   <script type="module" src="/src/main.js"></script>
